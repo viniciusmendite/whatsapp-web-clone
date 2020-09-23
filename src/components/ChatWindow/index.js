@@ -14,6 +14,15 @@ import './styles.css';
 const ChatWindow = () => {
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [text, setText] = useState('');
+  const [listening, setListening] = useState(false);
+
+  let recognition = null;
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (SpeechRecognition !== undefined) {
+    recognition = new SpeechRecognition();
+  }
 
   const handleEmojiClick = (e, emojiObject) => {
     setText(text + emojiObject.emoji);
@@ -27,7 +36,21 @@ const ChatWindow = () => {
     setEmojiOpen(false);
   };
 
-  const handleMicClick = () => {};
+  const handleMicClick = () => {
+    if (recognition !== null) {
+      recognition.onstart = () => {
+        setListening(true);
+      };
+      recognition.onend = () => {
+        setListening(false);
+      };
+      recognition.onresult = (e) => {
+        setText(e.results[0][0].transcript);
+      };
+
+      recognition.start();
+    }
+  };
 
   const handleSendClick = () => {};
 
@@ -92,7 +115,7 @@ const ChatWindow = () => {
         <div className="chatWindow--pos">
           {text === '' && (
             <div className="chatWindow--btn" onClick={handleMicClick}>
-              <MicIcon className="stylebutton" />
+              <MicIcon style={{ color: listening ? '#126ECE' : '#919191' }} />
             </div>
           )}
           {text !== '' && (
