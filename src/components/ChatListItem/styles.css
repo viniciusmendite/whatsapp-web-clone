@@ -7,6 +7,9 @@
 .item-area:hover {
   background-color: #F5F5F5;
 }
+.item-area.active {
+  background-color: #EBEBEB;
+}
 .avatar {
   width: 50px;
   height: 50px;

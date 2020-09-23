@@ -29,5 +29,6 @@ module.exports = {
     'guard-for-in': 'off',
     'no-console': 'off',
     'no-alert': 'off',
+    'react/jsx-boolean-value': 'off',
   },
 };
