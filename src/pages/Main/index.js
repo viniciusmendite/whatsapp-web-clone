@@ -5,6 +5,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 
 import ChatListItem from '../../components/ChatListItem';
+import ChatIntro from '../../components/ChatIntro';
 
 import './styles.css';
 
@@ -62,7 +63,9 @@ const App = () => {
           ))}
         </div>
       </div>
-      <div className="contentarea">...</div>
+      <div className="content-area">
+        <ChatIntro />
+      </div>
     </div>
   );
 };

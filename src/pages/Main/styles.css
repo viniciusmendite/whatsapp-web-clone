@@ -76,7 +76,9 @@ header {
 .chatlist::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
 }
-
+.content-area {
+  flex: 1;
+}
 
 /* Estilos dos ícones */
 .stylebutton {
