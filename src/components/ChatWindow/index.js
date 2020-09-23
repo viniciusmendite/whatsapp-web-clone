@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import EmojiPicker from 'emoji-picker-react';
+
 import SearchIcon from '@material-ui/icons/Search';
 import AttachFile from '@material-ui/icons/AttachFile';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -10,6 +12,25 @@ import MicIcon from '@material-ui/icons/Mic';
 import './styles.css';
 
 const ChatWindow = () => {
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const [text, setText] = useState('');
+
+  const handleEmojiClick = (e, emojiObject) => {
+    setText(text + emojiObject.emoji);
+  };
+
+  const handleOpenEmoji = () => {
+    setEmojiOpen(true);
+  };
+
+  const handleCloseEmoji = () => {
+    setEmojiOpen(false);
+  };
+
+  const handleMicClick = () => {};
+
+  const handleSendClick = () => {};
+
   return (
     <div className="chatWindow">
       <div className="chatWindow--header">
@@ -35,22 +56,50 @@ const ChatWindow = () => {
         </div>
       </div>
       <div className="chatWindow--body" />
+      <div
+        className="chatWindow--emojiarea"
+        style={{ height: emojiOpen ? '200px' : '0' }}
+      >
+        <EmojiPicker
+          onEmojiClick={handleEmojiClick}
+          disableSearchBar
+          disableSkinTonePicker
+        />
+      </div>
       <div className="chatWindow--footer">
         <div className="chatWindow--pre">
-          <div className="chatWindow--btn">
+          <div
+            className="chatWindow--btn"
+            onClick={handleCloseEmoji}
+            style={{ width: emojiOpen ? 40 : 0 }}
+          >
             <CloseIcon className="stylebutton" />
           </div>
-          <div className="chatWindow--btn">
-            <InsertEmoticonIcon className="stylebutton" />
+          <div className="chatWindow--btn" onClick={handleOpenEmoji}>
+            <InsertEmoticonIcon
+              style={{ color: emojiOpen ? '#009688' : '#919191' }}
+            />
           </div>
         </div>
         <div className="chatWindow--inputarea">
-          <input type="text" placeholder="Digite uma mensagem" />
+          <input
+            type="text"
+            placeholder="Digite uma mensagem"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
         </div>
         <div className="chatWindow--pos">
-          <div className="chatWindow--btn">
-            <SendIcon className="stylebutton" />
-          </div>
+          {text === '' && (
+            <div className="chatWindow--btn" onClick={handleMicClick}>
+              <MicIcon className="stylebutton" />
+            </div>
+          )}
+          {text !== '' && (
+            <div className="chatWindow--btn" onClick={handleSendClick}>
+              <SendIcon className="stylebutton" />
+            </div>
+          )}
         </div>
       </div>
     </div>
