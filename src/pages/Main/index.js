@@ -15,22 +15,22 @@ const App = () => {
     {
       id: 1,
       title: 'Fulano',
-      img: 'https://www.w3schools.com/howto/img_avatar2.png',
+      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
     },
     {
       id: 2,
       title: 'Fulano',
-      img: 'https://www.w3schools.com/howto/img_avatar2.png',
+      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
     },
     {
       id: 3,
       title: 'Fulano',
-      img: 'https://www.w3schools.com/howto/img_avatar2.png',
+      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
     },
     {
       id: 4,
       title: 'Fulano',
-      img: 'https://www.w3schools.com/howto/img_avatar2.png',
+      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
     },
   ]);
   const [activeChat, setActiveChat] = useState({});
@@ -71,6 +71,7 @@ const App = () => {
           {chatList.map((item, index) => (
             <ChatListItem
               key={index}
+              data={item}
               active={activeChat.id === chatList[index].id}
               onClick={() => setActiveChat(chatList[index])}
             />
