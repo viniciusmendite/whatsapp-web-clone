@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import EmojiPicker from 'emoji-picker-react';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -9,12 +9,53 @@ import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
 import MicIcon from '@material-ui/icons/Mic';
 
+import MessageItem from '../MessageItem';
+
 import './styles.css';
 
-const ChatWindow = () => {
+const ChatWindow = ({ user }) => {
+  const chatBody = useRef();
+
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [text, setText] = useState('');
   const [listening, setListening] = useState(false);
+  const [list, setList] = useState([
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+    { author: 123, body: 'bla bla' },
+    { author: 1234, body: 'bla blab sada as das' },
+  ]);
+
+  useEffect(() => {
+    if (chatBody.current.scrollHeight > chatBody.current.offsetHeight) {
+      chatBody.current.scrollTop =
+        chatBody.current.scrollHeight - chatBody.current.offsetHeight;
+    }
+  }, [list]);
 
   let recognition = null;
   const SpeechRecognition =
@@ -78,7 +119,11 @@ const ChatWindow = () => {
           </div>
         </div>
       </div>
-      <div className="chatWindow--body" />
+      <div ref={chatBody} className="chatWindow--body">
+        {list.map((item, index) => (
+          <MessageItem key={index} data={item} user={user} />
+        ))}
+      </div>
       <div
         className="chatWindow--emojiarea"
         style={{ height: emojiOpen ? '200px' : '0' }}
