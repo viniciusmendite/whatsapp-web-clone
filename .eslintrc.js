@@ -30,5 +30,7 @@ module.exports = {
     'no-console': 'off',
     'no-alert': 'off',
     'react/jsx-boolean-value': 'off',
+    'react/button-has-type': 'off',
+    'prefer-const': 'off',
   },
 };
