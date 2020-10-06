@@ -16,11 +16,7 @@ import api from '../../services/api';
 const App = () => {
   const [chatList, setChatList] = useState([]);
   const [activeChat, setActiveChat] = useState({});
-  const [user, setUser] = useState({
-    id: 'qLmLAjHmLpRkYKaX8jekKqBRwew1',
-    name: 'Vinícius Mendite',
-    avatar: 'https://api.adorable.io/avatars/285/abott@adorable.png',
-  });
+  const [user, setUser] = useState(null);
   const [showNewChat, setShowNewChat] = useState(false);
 
   useEffect(() => {
@@ -94,8 +90,10 @@ const App = () => {
         </div>
       </div>
       <div className="content-area">
-        {activeChat.id !== undefined && <ChatWindow user={user} />}
-        {activeChat.id === undefined && <ChatIntro />}
+        {activeChat.chatId !== undefined && (
+          <ChatWindow user={user} data={activeChat} />
+        )}
+        {activeChat.chatId === undefined && <ChatIntro />}
       </div>
     </div>
   );

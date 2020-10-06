@@ -11,44 +11,24 @@ import MicIcon from '@material-ui/icons/Mic';
 
 import MessageItem from '../MessageItem';
 
+import api from '../../services/api';
+
 import './styles.css';
 
-const ChatWindow = ({ user }) => {
+const ChatWindow = ({ user, data }) => {
   const chatBody = useRef();
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [text, setText] = useState('');
   const [listening, setListening] = useState(false);
-  const [list, setList] = useState([
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-    { author: 123, body: 'bla bla' },
-    { author: 1234, body: 'bla blab sada as das' },
-  ]);
+  const [list, setList] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    setList([]);
+    let unsub = api.onChatContent(data.chatId, setList, setUsers);
+    return unsub;
+  }, [data.chatId]);
 
   useEffect(() => {
     if (chatBody.current.scrollHeight > chatBody.current.offsetHeight) {
@@ -93,18 +73,26 @@ const ChatWindow = ({ user }) => {
     }
   };
 
-  const handleSendClick = () => {};
+  const handleSendClick = () => {
+    if (text !== '') {
+      api.sendMessage(data, user.id, 'text', text, users);
+      setText('');
+      setEmojiOpen(false);
+    }
+  };
+
+  const handleInputKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      handleSendClick();
+    }
+  };
 
   return (
     <div className="chatWindow">
       <div className="chatWindow--header">
         <div className="chatWindow--headerInfo">
-          <img
-            className="chatWindow--avatar"
-            src="https://www.w3schools.com/howto/img_avatar2.png"
-            alt="avatar"
-          />
-          <div className="chatWindow--name">Vinícius Mendite</div>
+          <img className="chatWindow--avatar" src={data.image} alt="avatar" />
+          <div className="chatWindow--name">{data.title}</div>
         </div>
 
         <div className="chatWindow--headerButtons">
@@ -155,6 +143,7 @@ const ChatWindow = ({ user }) => {
             placeholder="Digite uma mensagem"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            onKeyUp={handleInputKeyUp}
           />
         </div>
         <div className="chatWindow--pos">
