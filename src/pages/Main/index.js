@@ -11,30 +11,10 @@ import NewChat from '../../components/NewChat';
 import Login from '../../components/Login';
 
 import './styles.css';
+import api from '../../services/api';
 
 const App = () => {
-  const [chatList, setChatList] = useState([
-    {
-      id: 1,
-      title: 'Fulano',
-      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
-    },
-    {
-      id: 2,
-      title: 'Fulano',
-      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
-    },
-    {
-      id: 3,
-      title: 'Fulano',
-      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
-    },
-    {
-      id: 4,
-      title: 'Fulano',
-      avatar: 'https://www.w3schools.com/howto/img_avatar2.png',
-    },
-  ]);
+  const [chatList, setChatList] = useState([]);
   const [activeChat, setActiveChat] = useState({});
   const [user, setUser] = useState(null);
   const [showNewChat, setShowNewChat] = useState(false);
@@ -47,11 +27,10 @@ const App = () => {
     let newUser = {
       id: u.uid,
       name: u.displayName,
-      avatar: u.photoURL,
+      avatar: 'https://api.adorable.io/avatars/285/abott@adorable.png',
     };
-
+    await api.addUser(newUser);
     setUser(newUser);
-    console.log(user);
   };
 
   if (user === null) {

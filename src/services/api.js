@@ -13,4 +13,13 @@ export default {
     const result = await firebaseApp.auth().signInWithPopup(provider);
     return result;
   },
+  addUser: async (u) => {
+    await db.collection('users').doc(u.id).set(
+      {
+        name: u.name,
+        avatar: u.avatar,
+      },
+      { merge: true }
+    );
+  },
 };
