@@ -16,7 +16,11 @@ import api from '../../services/api';
 const App = () => {
   const [chatList, setChatList] = useState([]);
   const [activeChat, setActiveChat] = useState({});
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    id: 'qLmLAjHmLpRkYKaX8jekKqBRwew1',
+    name: 'Vinícius Mendite',
+    avatar: 'https://api.adorable.io/avatars/285/abott@adorable.png',
+  });
   const [showNewChat, setShowNewChat] = useState(false);
 
   const handleNewChat = () => {
